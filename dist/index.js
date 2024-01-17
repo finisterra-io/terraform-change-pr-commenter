@@ -12936,10 +12936,8 @@ async function run() {
         `Found PR # ${context.issue.number} from workflow context - proceeding to comment.`
       );
     } else {
-      core.warning(
-        "Action doesn't seem to be running in a PR workflow context."
-      );
-      core.warning("Skipping comment creation.");
+      core.info("Action doesn't seem to be running in a PR workflow context.");
+      core.info("Skipping comment creation.");
       process.exit(0);
     }
 
