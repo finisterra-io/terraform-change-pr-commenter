@@ -12836,7 +12836,6 @@ const output = () => {
           resources_to_update = [],
           resources_to_delete = [],
           resources_to_replace = [],
-          resources_to_import = [],
           resources_unchanged = [];
 
         // for each resource changes
@@ -12860,9 +12859,6 @@ const output = () => {
                 resources_to_delete.push(address);
               }
               break;
-            case "import":
-              resources_to_import.push(address);
-              break;
             case "update":
               resources_to_update.push(address);
               break;
@@ -12875,14 +12871,12 @@ const output = () => {
 \`${file}\`
 <details ${expandDetailsComment ? "open" : ""}>
   <summary>
-    <b>Terraform Plan: ${resources_to_import.length} to be imported, 
-        ${resources_to_create.length} to be created, ${
+    <b>Terraform Plan: ${resources_to_create.length} to be created, ${
           resources_to_delete.length
         } to be deleted, ${resources_to_update.length} to be updated, ${
           resources_to_replace.length
         } to be replaced, ${resources_unchanged.length} unchanged.</b>
   </summary>
-${details("import", resources_to_import, "<")}
 ${details("create", resources_to_create, "+")}
 ${details("delete", resources_to_delete, "-")}
 ${details("update", resources_to_update, "!")}
@@ -12929,7 +12923,7 @@ const details = (action, resources, operator) => {
 
 try {
   if (includePlanSummary) {
-    core.info("Adding plan output to job summary--");
+    core.info("Adding plan output to job summary");
     core.info(output());
     core.summary.addHeading("Terraform Plan Results").addRaw(output()).write();
   }
