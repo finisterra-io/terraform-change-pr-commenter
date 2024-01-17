@@ -12924,9 +12924,12 @@ const details = (action, resources, operator) => {
 try {
   if (includePlanSummary) {
     core.info("Adding plan output to job summary");
-    core.info(output());
-    core.summary.addHeading("Terraform Plan Results").write();
-    // core.summary.addHeading("Terraform Plan Results").addRaw(output()).write();
+    // core.info(output());
+    core.summary.addHeading("Terraform Plan Results");
+    console.log(core.summary.stringify());
+    core.summary.addRaw(output());
+    console.log(core.summary.stringify());
+    core.summary.write();
   }
 
   if (context.eventName === "pull_request") {
