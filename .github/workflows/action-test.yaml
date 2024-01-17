@@ -1,0 +1,35 @@
+name: Action Tester Workflow
+
+on:
+  pull_request:
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - run: yarn install
+      - run: yarn run build
+
+      - name: Test PR Commenter
+        uses: ./
+        with:
+          json-file: |
+            test-data/tf_test.json
+            test-data/tf_test2.json
+            test-data/tf_test3.json
+
+      - name: Test PR Comment Expand feature
+        uses: ./
+        with:
+          json-file: test-data/tf_test.json
+          expand-comment: "true"
+          include-plan-job-summary: "true"
+
+      - name: Test PR Commenter with no changes
+        uses: ./
+        with:
+          json-file: test-data/tf_nochanges.json
