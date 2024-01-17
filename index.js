@@ -107,7 +107,7 @@ const details = (action, resources, operator) => {
 
 try {
   if (includePlanSummary) {
-    core.info("Adding plan output to job summary");
+    core.info("Adding plan output to job summary--");
     core.info(output());
     core.summary.addHeading("Terraform Plan Results").addRaw(output()).write();
   }
