@@ -105,33 +105,39 @@ const details = (action, resources, operator) => {
   return str;
 };
 
-try {
-  if (includePlanSummary) {
-    core.info("Adding plan output to job summary");
-    // core.info(output());
-    core.summary.addHeading("Terraform Plan Results");
-    console.log(core.summary.stringify());
-    core.summary.addRaw(output());
-    console.log(core.summary.stringify());
-    core.summary.write();
-  }
+async function run() {
+  try {
+    if (includePlanSummary) {
+      core.info("Adding plan output to job summary");
+      await core.summary
+        .addHeading("Terraform Plan Results")
+        .addRaw(output())
+        .write();
+    }
 
-  if (context.eventName === "pull_request") {
-    core.info(
-      `Found PR # ${context.issue.number} from workflow context - proceeding to comment.`
-    );
-  } else {
-    core.warning("Action doesn't seem to be running in a PR workflow context.");
-    core.warning("Skipping comment creation.");
-    process.exit(0);
-  }
+    if (context.eventName === "pull_request") {
+      core.info(
+        `Found PR # ${context.issue.number} from workflow context - proceeding to comment.`
+      );
+    } else {
+      core.warning(
+        "Action doesn't seem to be running in a PR workflow context."
+      );
+      core.warning("Skipping comment creation.");
+      process.exit(0);
+    }
 
-  octokit.rest.issues.createComment({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    body: output(),
-  });
-} catch (error) {
-  core.setFailed(error.message);
+    octokit.rest.issues.createComment({
+      issue_number: context.issue.number,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body: output(),
+    });
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+run().catch((error) => {
+  core.setFailed(error.message);
+});
