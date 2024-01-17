@@ -84,3 +84,4 @@ Otherwise if things aren't working as expected, please [open a new issue](https:
 ![CodeQL Security Scan](https://github.com/liatrio/terraform-change-pr-commenter/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
 ![Release](https://github.com/liatrio/terraform-change-pr-commenter/actions/workflows/release.yml/badge.svg?branch=main)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+# terraform-change-pr-commenter
