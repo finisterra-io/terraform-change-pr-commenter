@@ -109,7 +109,8 @@ try {
   if (includePlanSummary) {
     core.info("Adding plan output to job summary");
     core.info(output());
-    core.summary.addHeading("Terraform Plan Results").addRaw(output()).write();
+    core.summary.addHeading("Terraform Plan Results").write();
+    // core.summary.addHeading("Terraform Plan Results").addRaw(output()).write();
   }
 
   if (context.eventName === "pull_request") {
